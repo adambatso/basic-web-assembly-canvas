@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>WebAssembly</h1>
+    <script>
+
+        //inisialize was custom memory (array buffer)
+        // 20 pages: 20 * 64kv ~ 1.2 mb
+        const wasMemory = new WebAssembly.Memory({ initial: 20})
+        //Read a string out of Web assembly memory 
+        const readMemStr = ( offset, length) => {
+            const strBuffer = new Uint8Array(wasMemory.buffer, offset, length);
+
+            const str = new TextDecoder().decode(strBuffer);
+            console.log('%c str', 'font-size:20px;color:lime;', str);
+        } 
+
+        const imports = {
+            env: {
+                consoleLog: console.log,
+                logStr: readMemStr,
+                memory: wasMemory
+            }
+        }
+        WebAssembly.instantiateStreaming(fetch('/main.wasm'), imports)
+        .then( (wasm) => {
+            console.log('wasm ready')
+            window.wasm = wasm;
+            console.log(WebAssembly.Module.exports(wasm.module));
+            console.log(WebAssembly.Module.imports(wasm.module));
+            wasm.instance.exports.great(122);
+        })
+    </script>
+</body>
+</html>

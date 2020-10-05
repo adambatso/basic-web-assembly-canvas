@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    body, #canvas_example {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+</style>
+<body>
+    <canvas id="canvas_example" width="2000" height="2000"></canvas>
+    <!-- <script src="demo.js"></script> -->
+    <script src="canvas.js"></script>
+    <script>
+        const canvas = document.getElementById('canvas_example');
+        const context = canvas.getContext('2d');
+        console.log('%c canvas.width, canvas.height', 'font-size:20px;color:lime;', canvas.width, canvas.height);
+        
+
+        const render = (dataLength, circleStructureSize) => {
+            
+            // context.clearRect(0,0, canvas.width, canvas.height)
+            _print(canvas.width, canvas.height);
+            // const circles = new Int32Array(Module.HEAP32.buffer,_getCircles(canvas.width, canvas.height), dataLength);
+            
+            // for (let i =0; i < circles.length; i += circleStructureSize) {
+            //     let circle = circles.slice(i, i + circleStructureSize);
+        
+            //     context.beginPath();
+            //     context.arc(circle[0], circle[1], circle[2], 2*Math.PI, false);
+            //     context.fillStyle = `rgba(${circle[3]},${circle[4]},${circle[5]}, 0.7)`;
+            //     context.fill();
+
+            // }
+
+            
+
+            window.requestAnimationFrame( () => render(dataLength, circleStructureSize));
+            }
+
+            
+        
+    </script>
+</body>
+</html>

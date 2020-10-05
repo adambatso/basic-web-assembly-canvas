@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>WebAssembly</h1>
+    <!-- <script src="demo.js"></script> -->
+    <script src="primes.js"></script>
+    <script>
+        const primeNumber = 100000;
+        isPrime = (number) => {
+            for( let num = 2; num< number; num++) {
+                if (number % num === 0) { return false;}
+            }
+            return true;
+        } 
+        countPrimes = (numberOfIteration) => {
+            let count = 0;
+            for(let prime = 0; prime <= numberOfIteration; prime++) {
+                if (isPrime(prime)) {
+                    count++;
+                }
+            } 
+            return count;
+        }
+        Module['onRuntimeInitialized'] = () => {
+            let jsStart = performance.now();
+            const jsPrimes = countPrimes(primeNumber);
+            console.log('%c jsPrimes', 'font-size:20px;color:lime;', jsPrimes);
+            console.log('%c In js time', 'font-size:20px;color:blue;', Math.round(performance.now() - jsStart)/1000);
+
+            let cStart = performance.now();
+            const cPrimes = _countPrimes(primeNumber);
+            console.log('%c cPrimes', 'font-size:20px;color:lime;', cPrimes);
+            console.log('%c In c time', 'font-size:20px;color:blue;', Math.round(performance.now() - cStart)/1000);
+        }
+    </script>
+</body>
+</html>

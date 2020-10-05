@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>WebAssembly</h1>
+    <script>
+
+
+        const imports = {
+            env: {
+                consoleLog: console.log,
+                memset: () => {}
+            }
+        }
+        WebAssembly.instantiateStreaming(fetch('/program.wasm'), imports)
+        .then( (wasm) => {
+            console.log('wasm ready')
+            window.wasm = wasm;
+            console.log(WebAssembly.Module.exports(wasm.module));
+            // wasm.instance.exports.doubleNumber(4)
+        })
+    </script>
+</body>
+</html>
